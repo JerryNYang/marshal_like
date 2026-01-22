@@ -1,6 +1,8 @@
 import marshal
 import sys
 
+# Detect & Mitigate Marshal Version Mismatch (Prevents Crashes from Old Python 2.x Data)
+
 def safe_marshal_load(file_path):
     try:
         with open(file_path, "rb") as f:
@@ -16,10 +18,10 @@ def safe_marshal_load(file_path):
             print("Detected vulnerability: Old Python 2.x marshal format - high crash risk")
             print("Mitigated: Rejected load to prevent interpreter corruption")
             return None
-        
         code = marshal.loads(data)
         print("Safe load successful")
         return code
+
     except ValueError as e:
         print(f"Detected invalid marshal data: {e}")
         print("Mitigated: Caught and rejected")
